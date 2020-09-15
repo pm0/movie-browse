@@ -1,0 +1,26 @@
+@import "~bootstrap/scss/bootstrap";
+
+.main-page-template {
+  .search-form-wrapper {
+    margin-left: 2rem;
+    transition: width 0.4s ease-out;
+
+    &.collapsing {
+      height: unset;
+      width: 0;
+    }
+
+    .input-group {
+      width: 275px;
+    }
+
+    @include media-breakpoint-down(md) {
+      margin-top: 0.5rem;
+      margin-left: 0;
+      width: 100%;
+      .input-group {
+        width: 100%;
+      }
+    }
+  }
+}

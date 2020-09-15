@@ -1,3 +1,36 @@
+$font-family-sans-serif: "Karla", sans-serif;
+$theme-colors: (
+  "dark": #111,
+  "action": #bb6411
+);
+$body-bg: #222;
+$body-color: #eee;
 $enable-rounded: false;
+
+$jumbotron-bg: unset;
+
+$navbar-padding-y: 0.75rem;
+$navbar-padding-x: 1.5rem;
+$navbar-brand-font-size: 1.5rem;
+$navbar-nav-link-padding-x: 1rem;
+$navbar-dark-color: rgba(255, 255, 255, 0.75);
+$navbar-dark-toggler-border-color: transparent;
+$navbar-toggler-font-size: 1.5rem;
+.navbar-collapse {
+  padding: 0.25rem 0;
+}
+.nav-link {
+  font-size: 1.25rem;
+}
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+// @import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+// @import "~bootstrap/scss/images";
+// @import "~bootstrap/scss/code";
+// @import "~bootstrap/scss/grid";
 
 @import "~bootstrap/scss/bootstrap";
