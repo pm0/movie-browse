@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
@@ -14,6 +14,7 @@ import "./MainPageTemplate.scss";
 function MainPageTemplate(props) {
   const { className, children } = props;
   const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef(null);
   const isMdUp = useMediaQuery({ query: "(min-width: 768px)" });
 
   return (
@@ -30,7 +31,12 @@ function MainPageTemplate(props) {
               <FaSearch
                 size={20}
                 onClick={() => {
-                  if (!searchOpen) setSearchOpen(true);
+                  if (!searchOpen) {
+                    setSearchOpen(true);
+                    setTimeout(() => {
+                      searchInputRef.current.focus();
+                    }, 250);
+                  }
                 }}
                 title="Open search"
                 className={searchOpen ? "" : "clickable-icon"}
@@ -43,7 +49,11 @@ function MainPageTemplate(props) {
             >
               <div className="search-form-wrapper">
                 <InputGroup>
-                  <Form.Control type="text" placeholder="Search movies" />
+                  <Form.Control
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search movies"
+                  />
                   <InputGroup.Append>
                     <Button variant="action">Search</Button>
                   </InputGroup.Append>

@@ -25,33 +25,62 @@ const handleApiError = res => {
   res.send({ serverError: "Sorry, something went wrong" });
 };
 
-const addAdditionalMovieFields = movies => {
+const addAdditionalMovieFields = movie => {
   // Map genre IDs to names, and add full path to poster image URL
-  movies.forEach(movie => {
-    movie.genres = movie.genre_ids.map(genreId => genresMap[genreId]);
-    movie.poster_path_full = `${imageConfig.secure_base_url}${imageConfig.poster_sizes[3]}${movie.poster_path}`;
-  });
+  movie.genres = movie.genre_ids.map(genreId => genresMap[genreId]);
+  movie.poster_path_full = `${imageConfig.secure_base_url}${imageConfig.poster_sizes[3]}${movie.poster_path}`;
 };
 
 app.get("/api/movies/trending", async (req, res, next) => {
   const response = await tmdbApiCall("/trending/movie/week", "page=1");
   if (response.status === 200) {
-    addAdditionalMovieFields(response.data.results);
+    response.data.results.forEach(movie => addAdditionalMovieFields(movie));
     res.status(200);
     res.send(response.data.results);
   } else {
-    handleApiError(res);
+    handleApiError(response, res);
   }
 });
 
 app.get("/api/movies/popular", async (req, res, next) => {
   const response = await tmdbApiCall("/movie/popular", "page=1");
   if (response.status === 200) {
-    addAdditionalMovieFields(response.data.results);
+    response.data.results.forEach(movie => addAdditionalMovieFields(movie));
     res.status(200);
     res.send(response.data.results);
   } else {
-    handleApiError(res);
+    handleApiError(response, res);
+  }
+});
+
+app.get("/api/movies/getDetailsById/:id", async (req, res, next) => {
+  // Get details and cast of movie
+  let [detailsResponse, creditsResponse] = await Promise.all([
+    tmdbApiCall(`/movie/${req.params.id}`),
+    tmdbApiCall(`/movie/${req.params.id}/credits`)
+  ]);
+
+  if (detailsResponse.status === 200 && creditsResponse.status === 200) {
+    let movie = detailsResponse.data;
+
+    // Add backdrop image URL to data
+    movie.backdrop_path_full = `${imageConfig.secure_base_url}${imageConfig.backdrop_sizes[3]}${movie.backdrop_path}`;
+    console.log(imageConfig);
+    // Add cast credits to data, adding full image URL
+    movie.cast_credits = creditsResponse.data.cast.map(cast => ({
+      ...cast,
+      profile_path_full: `${imageConfig.secure_base_url}${imageConfig.profile_sizes[1]}${cast.profile_path}`
+    }));
+
+    res.status(200);
+    res.send(movie);
+  } else {
+    if (detailsResponse.status !== 200) {
+      handleApiError(detailsResponse, res);
+    }
+    if (creditsResponse.status !== 200) {
+      handleApiError(creditsResponse, res);
+    }
   }
 });
 

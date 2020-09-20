@@ -23,11 +23,24 @@ export const fetchPopularMovies = createAsyncThunk(
   }
 );
 
+export const fetchMovieDetails = createAsyncThunk(
+  "movies/fetchMovieDetails",
+  async (userData, thunkAPI) => {
+    const response = await apiCall(
+      `/api/movies/getDetailsById/${userData.id}`,
+      thunkAPI.rejectWithValue
+    );
+    return response;
+  }
+);
+
 const initialState = {
   trendingMovies: [],
   trendingMoviesLoading: "idle",
   popularMovies: [],
   popularMoviesLoading: "idle",
+  movieDetails: {},
+  movieDetailsLoading: "idle",
   apiCallError: false
 };
 const moviesSlice = createSlice({
@@ -68,6 +81,24 @@ const moviesSlice = createSlice({
     [fetchPopularMovies.rejected]: (state, action) => {
       if (state.popularMoviesLoading === "pending") {
         state.popularMoviesLoading = "idle";
+        state.apiCallError = true;
+      }
+    },
+    [fetchMovieDetails.pending]: (state, action) => {
+      if (state.movieDetailsLoading === "idle") {
+        state.movieDetailsLoading = "pending";
+        state.apiCallError = false;
+      }
+    },
+    [fetchMovieDetails.fulfilled]: (state, action) => {
+      if (state.movieDetailsLoading === "pending") {
+        state.movieDetailsLoading = "idle";
+        state.movieDetails[action.payload.id] = action.payload;
+      }
+    },
+    [fetchMovieDetails.rejected]: (state, action) => {
+      if (state.movieDetailsLoading === "pending") {
+        state.movieDetailsLoading = "idle";
         state.apiCallError = true;
       }
     }

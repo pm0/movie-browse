@@ -2,13 +2,39 @@
   display: flex;
   padding-bottom: 1.5rem;
 
-  .card.movie-card {
-    background-color: #333;
+  a.movie-card-link {
+    color: white;
+    text-decoration: none;
 
-    .card-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .card.movie-card {
+      height: 100%;
+      background-color: #333;
+      border-radius: 0;
+      cursor: pointer;
+
+      .movie-card-image-wrapper {
+        position: relative;
+
+        .movie-card-image-overlay {
+          height: 100%;
+          width: 100%;
+          position: absolute;
+          transition: background-color 0.25s ease-in-out;
+        }
+
+        img {
+          border-radius: 0;
+        }
+      }
+      &:hover .movie-card-image-overlay {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
     }
   }
 }

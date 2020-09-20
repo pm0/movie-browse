@@ -27,10 +27,10 @@ const mapDispatchToProps = { fetchTrendingMovies, fetchPopularMovies };
 function HomePage(props) {
   const {
     trendingMovies,
-    trendingMoviesLoading,
+    //trendingMoviesLoading,
     fetchTrendingMovies,
     popularMovies,
-    popularMoviesLoading,
+    //popularMoviesLoading,
     fetchPopularMovies
   } = props;
 
@@ -41,34 +41,40 @@ function HomePage(props) {
 
   return (
     <MainPageTemplate className="home-page">
-      <Jumbotron className="text-center">
-        <div className="mb-5">
-          <h1>
-            <b>MovieBrowse</b> - the database of movies across cinema history.
-          </h1>
-          <h2>
-            Search below, or check out the latest trending and popular movies.
-          </h2>
-        </div>
-        <Container>
-          <Row>
-            <Col xs={12} lg={{ span: 6, offset: 3 }}>
-              <InputGroup>
-                <Form.Control
-                  type="text"
-                  size="lg"
-                  placeholder="Search movies"
-                />
-                <InputGroup.Append>
-                  <Button size="lg" variant="action">
-                    Search
-                  </Button>
-                </InputGroup.Append>
-              </InputGroup>
-            </Col>
-          </Row>
-        </Container>
-      </Jumbotron>
+      <Row>
+        <Col xs={12}>
+          <Jumbotron className="text-center">
+            <div className="mb-5">
+              <h1>
+                <b>MovieBrowse</b> - the database of movies across cinema
+                history.
+              </h1>
+              <h2>
+                Search below, or check out the latest trending and popular
+                movies.
+              </h2>
+            </div>
+            <Container>
+              <Row>
+                <Col xs={12} lg={{ span: 6, offset: 3 }}>
+                  <InputGroup>
+                    <Form.Control
+                      type="text"
+                      size="lg"
+                      placeholder="Search movies"
+                    />
+                    <InputGroup.Append>
+                      <Button size="lg" variant="action">
+                        Search
+                      </Button>
+                    </InputGroup.Append>
+                  </InputGroup>
+                </Col>
+              </Row>
+            </Container>
+          </Jumbotron>
+        </Col>
+      </Row>
 
       <Row>
         <Col xs={12} lg={{ span: 10, offset: 1 }}>
