@@ -1,0 +1,50 @@
+.movie-card-col {
+  display: flex;
+  padding-bottom: 1.5rem;
+
+  .card.movie-card {
+    background-color: #333;
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+}
+
+.tooltip.movie-card-tooltip {
+  &.show {
+    opacity: 1;
+  }
+
+  &.bs-tooltip-top .arrow::before {
+    border-top-color: #bb6411;
+  }
+  &.bs-tooltip-left .arrow::before {
+    border-left-color: #bb6411;
+  }
+  &.bs-tooltip-bottom .arrow::before {
+    border-bottom-color: #bb6411;
+  }
+  &.bs-tooltip-right .arrow::before {
+    border-right-color: #bb6411;
+  }
+
+  .tooltip-inner {
+    max-width: 300px;
+    background-color: #bb6411;
+    border-radius: 0;
+    text-align: left;
+  }
+}
+
+.movie-card-vote-average {
+  display: flex;
+  align-items: center;
+}
+
+.movie-card-genres {
+  font-size: 90%;
+  margin-top: 0.25rem;
+}

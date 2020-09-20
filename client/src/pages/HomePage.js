@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchTrendingMovies } from "../store/movies";
+
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -8,7 +9,9 @@ import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+
 import MainPageTemplate from "../pageTemplates/MainPageTemplate";
+import MovieCard from "../components/MovieCard";
 
 const mapStateToProps = state => {
   return {
@@ -59,23 +62,18 @@ function HomePage(props) {
 
       <Row>
         <Col xs={12} lg={{ span: 10, offset: 1 }}>
-          <h3>Trending Movies</h3>
+          <h2>Trending Movies</h2>
           <Row>
             {trendingMovies.map(movie => (
-              <Col key={movie.id} xs={6} md={4} xl={2}>
-                <h5>{movie.title}</h5>
-                <div>{movie.overview}</div>
-              </Col>
+              <MovieCard key={movie.id} data={movie} />
             ))}
           </Row>
         </Col>
       </Row>
 
       <Row>
-        <Col xs={12}>
-          <div>
-            <h3>Popular Movies</h3>
-          </div>
+        <Col xs={12} lg={{ span: 10, offset: 1 }}>
+          <h2>Popular Movies</h2>
         </Col>
       </Row>
     </MainPageTemplate>
