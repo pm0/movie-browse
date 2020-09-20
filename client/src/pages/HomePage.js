@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { fetchTrendingMovies } from "../store/movies";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -8,7 +10,22 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import MainPageTemplate from "../pageTemplates/MainPageTemplate";
 
-function HomePage() {
+const mapStateToProps = state => {
+  return {
+    trendingMovies: state.movies.trendingMovies,
+    trendingMoviesLoading: state.movies.trendingMoviesLoading
+  };
+};
+
+const mapDispatchToProps = { fetchTrendingMovies };
+
+function HomePage(props) {
+  const { trendingMovies, trendingMoviesLoading, fetchTrendingMovies } = props;
+
+  useEffect(() => {
+    fetchTrendingMovies();
+  }, [fetchTrendingMovies]);
+
   return (
     <MainPageTemplate className="home-page">
       <Jumbotron className="text-center">
@@ -39,13 +56,21 @@ function HomePage() {
           </Row>
         </Container>
       </Jumbotron>
+
       <Row>
-        <Col xs={12}>
-          <div>
-            <h3>Trending Movies</h3>
-          </div>
+        <Col xs={12} lg={{ span: 10, offset: 1 }}>
+          <h3>Trending Movies</h3>
+          <Row>
+            {trendingMovies.map(movie => (
+              <Col key={movie.id} xs={6} md={4} xl={2}>
+                <h5>{movie.title}</h5>
+                <div>{movie.overview}</div>
+              </Col>
+            ))}
+          </Row>
         </Col>
       </Row>
+
       <Row>
         <Col xs={12}>
           <div>
@@ -57,4 +82,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
