@@ -42,7 +42,7 @@ function MovieCard(props) {
                 {data.release_date.substr(0, 4)}
               </div>
               <div className="movie-card-vote-average">
-                {data.vote_average}&nbsp;
+                {data.vote_count === 0 ? "N/A" : data.vote_average}&nbsp;
                 <FaStar />
               </div>
             </Card.Text>

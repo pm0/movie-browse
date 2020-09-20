@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
@@ -25,20 +24,7 @@ function MainPageTemplate(props) {
           <GiHamburgerMenu size={24} />
         </Navbar.Toggle>
         <Navbar.Collapse>
-          <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <NavDropdown title="Dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
+          <Nav className="mr-auto"></Nav>
           <div className="d-flex align-items-center">
             {isMdUp && (
               <FaSearch

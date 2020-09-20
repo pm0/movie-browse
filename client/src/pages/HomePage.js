@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchTrendingMovies } from "../store/movies";
+import { fetchTrendingMovies, fetchPopularMovies } from "../store/movies";
 
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from "react-bootstrap/Container";
@@ -16,18 +16,28 @@ import MovieCard from "../components/MovieCard";
 const mapStateToProps = state => {
   return {
     trendingMovies: state.movies.trendingMovies,
-    trendingMoviesLoading: state.movies.trendingMoviesLoading
+    trendingMoviesLoading: state.movies.trendingMoviesLoading,
+    popularMovies: state.movies.popularMovies,
+    popularMoviesLoading: state.movies.popularMoviesLoading
   };
 };
 
-const mapDispatchToProps = { fetchTrendingMovies };
+const mapDispatchToProps = { fetchTrendingMovies, fetchPopularMovies };
 
 function HomePage(props) {
-  const { trendingMovies, trendingMoviesLoading, fetchTrendingMovies } = props;
+  const {
+    trendingMovies,
+    trendingMoviesLoading,
+    fetchTrendingMovies,
+    popularMovies,
+    popularMoviesLoading,
+    fetchPopularMovies
+  } = props;
 
   useEffect(() => {
     fetchTrendingMovies();
-  }, [fetchTrendingMovies]);
+    fetchPopularMovies();
+  }, [fetchTrendingMovies, fetchPopularMovies]);
 
   return (
     <MainPageTemplate className="home-page">
@@ -74,6 +84,11 @@ function HomePage(props) {
       <Row>
         <Col xs={12} lg={{ span: 10, offset: 1 }}>
           <h2>Popular Movies</h2>
+          <Row>
+            {popularMovies.map(movie => (
+              <MovieCard key={movie.id} data={movie} />
+            ))}
+          </Row>
         </Col>
       </Row>
     </MainPageTemplate>
