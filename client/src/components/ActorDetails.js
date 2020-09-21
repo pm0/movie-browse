@@ -70,7 +70,7 @@ function ActorDetails(props) {
                       )
                     : "Unknown"}
                 </h6>
-                <h6>Character: {movie.character}</h6>
+                {movie.character && <h6>Playing: {movie.character}</h6>}
               </DetailCard>
             ))}
           </DetailCardPanel>

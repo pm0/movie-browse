@@ -37,22 +37,29 @@ function MovieDetails(props) {
                   <h1>{data.title}</h1>
                   <h6>
                     <span>{data.release_date.substr(0, 4)}</span>
-                    <BsDot />
-                    <span>{data.runtime} min</span>
+                    {data.runtime ? (
+                      <>
+                        <BsDot />
+                        <span>{data.runtime} min</span>
+                      </>
+                    ) : null}
                     <BsDot />
                     <span>
-                      {data.vote_count === 0 ? "N/A" : data.vote_average}&nbsp;
-                      <FaStar />
+                      {data.vote_count === 0 ? "N/A" : data.vote_average}
+                      /10&nbsp;
+                      <FaStar className="star-icon" />
                     </span>
                   </h6>
-                  <h5>{data.overview}</h5>
-                  <h6>
-                    Genres:{" "}
-                    {data.genres.reduce(
-                      (acc, val) => acc.concat(acc ? ", " : "", val.name),
-                      ""
-                    )}
-                  </h6>
+                  {data.overview && <h5>{data.overview}</h5>}
+                  {data.genres.length > 0 && (
+                    <h6>
+                      Genres:{" "}
+                      {data.genres.reduce(
+                        (acc, val) => acc.concat(acc ? ", " : "", val.name),
+                        ""
+                      )}
+                    </h6>
+                  )}
                 </Col>
               </Row>
 
