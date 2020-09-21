@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const axios = require("axios");
+const moment = require("moment");
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -65,7 +66,7 @@ app.get("/api/movies/getDetailsById/:id", async (req, res, next) => {
 
     // Add backdrop image URL to data
     movie.backdrop_path_full = `${imageConfig.secure_base_url}${imageConfig.backdrop_sizes[3]}${movie.backdrop_path}`;
-    console.log(imageConfig);
+
     // Add cast credits to data, adding full image URL
     movie.cast_credits = creditsResponse.data.cast.map(cast => ({
       ...cast,
@@ -74,6 +75,42 @@ app.get("/api/movies/getDetailsById/:id", async (req, res, next) => {
 
     res.status(200);
     res.send(movie);
+  } else {
+    if (detailsResponse.status !== 200) {
+      handleApiError(detailsResponse, res);
+    }
+    if (creditsResponse.status !== 200) {
+      handleApiError(creditsResponse, res);
+    }
+  }
+});
+
+app.get("/api/actors/getDetailsById/:id", async (req, res, next) => {
+  // Get details and movie roles of actor
+  let [detailsResponse, creditsResponse] = await Promise.all([
+    tmdbApiCall(`/person/${req.params.id}`),
+    tmdbApiCall(`/person/${req.params.id}/movie_credits`)
+  ]);
+
+  if (detailsResponse.status === 200 && creditsResponse.status === 200) {
+    let actor = detailsResponse.data;
+
+    // Add profile image URL and movie roles to data (sorting by most recent first & putting unknown release dates at end)
+    actor.profile_path_full = `${imageConfig.secure_base_url}${imageConfig.profile_sizes[1]}${actor.profile_path}`;
+    actor.movie_roles = creditsResponse.data.cast
+      .sort((a, b) =>
+        !b.release_date
+          ? -1
+          : moment(b.release_date).diff(moment(a.release_date))
+      )
+      // Then, add additional field for full poster image URL
+      .map(movie => ({
+        ...movie,
+        poster_path_full: `${imageConfig.secure_base_url}${imageConfig.poster_sizes[1]}${movie.poster_path}`
+      }));
+
+    res.status(200);
+    res.send(actor);
   } else {
     if (detailsResponse.status !== 200) {
       handleApiError(detailsResponse, res);

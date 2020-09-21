@@ -1,0 +1,31 @@
+.detail-card-panel {
+  max-height: 1000px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 2rem;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 10%;
+    display: inline-block;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #222 100%);
+    z-index: 20;
+  }
+
+  &.open {
+    max-height: unset;
+  }
+  &.open:after {
+    display: none;
+  }
+}
+
+.detail-card-panel-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 4rem;
+}

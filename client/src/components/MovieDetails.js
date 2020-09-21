@@ -1,47 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
+import DetailCardPanel from "./DetailCardPanel";
+import DetailCard from "./DetailCard";
 import { BsDot } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import "./MovieDetails.scss";
 
-function MovieDetailsCast(props) {
-  const { data } = props;
-
-  return (
-    <div className="movie-details-cast">
-      {data.profile_path && (
-        <img src={data.profile_path_full} alt={`Actor ${data.name}`} />
-      )}
-      <div className="movie-details-cast-text">
-        <h4>{data.name}</h4>
-        <h5>{data.character}</h5>
-      </div>
-    </div>
-  );
-}
-
 function MovieDetails(props) {
   const { data } = props;
-  const [castOpen, setCastOpen] = useState(false);
 
   return (
     <>
       <Row className="no-gutters">
         <Col xs={12}>
           <div className="movie-details">
-            <div className="movie-details-backdrop-image-wrapper">
-              <img
-                src={data.backdrop_path_full}
-                alt={`Movie ${data.title}`}
-                className="movie-details-backdrop-image"
-              />
-            </div>
+            {data.backdrop_path && (
+              <div className="movie-details-backdrop-image-wrapper">
+                <img
+                  src={data.backdrop_path_full}
+                  alt={`Movie ${data.title}`}
+                  className="movie-details-backdrop-image"
+                />
+              </div>
+            )}
 
-            <Container fluid className="movie-details-text-container">
-              <Row className="mb-4">
+            <Container
+              fluid
+              className={`movie-details-text-container${
+                data.backdrop_path ? " backdrop-padding" : ""
+              }`}
+            >
+              <Row>
                 <Col xs={12}>
                   <h1>{data.title}</h1>
                   <h6>
@@ -67,29 +58,21 @@ function MovieDetails(props) {
 
               <Row>
                 <Col xs={12} md={{ span: 6, offset: 3 }}>
-                  <div
-                    className={`movie-details-cast-panel${
-                      castOpen ? " open" : ""
-                    }`}
-                  >
-                    <h2>Cast</h2>
+                  <DetailCardPanel title="Cast">
                     {data.cast_credits.map(cast => (
-                      <MovieDetailsCast key={cast.cast_id} data={cast} />
+                      <DetailCard
+                        key={cast.cast_id}
+                        image={
+                          cast.profile_path ? cast.profile_path_full : null
+                        }
+                        imageAlt={`Actor ${cast.name}`}
+                        linkPath={`/actor/${cast.id}`}
+                      >
+                        <h4>{cast.name}</h4>
+                        <h5>{cast.character}</h5>
+                      </DetailCard>
                     ))}
-                  </div>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col xs={12} className="d-flex justify-content-center">
-                  <Button
-                    variant="action"
-                    size="lg"
-                    onClick={() => setCastOpen(!castOpen)}
-                    className="mt-4"
-                  >
-                    {castOpen ? "View Less" : "View All"}
-                  </Button>
+                  </DetailCardPanel>
                 </Col>
               </Row>
             </Container>

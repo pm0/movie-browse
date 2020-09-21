@@ -26,49 +26,15 @@
 
   .movie-details-text-container {
     position: relative;
-    bottom: 100px;
+    margin-top: 2rem;
 
-    @include media-breakpoint-down(sm) {
-      bottom: 50px;
+    &.backdrop-padding {
+      margin-top: 0;
+      bottom: 100px;
+
+      @include media-breakpoint-down(sm) {
+        bottom: 50px;
+      }
     }
-  }
-
-  .movie-details-cast-panel {
-    max-height: 1000px;
-    overflow: hidden;
-
-    &:after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      display: inline-block;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 80%, #222 100%);
-    }
-
-    &.open {
-      max-height: unset;
-    }
-    &.open:after {
-      background: none;
-    }
-  }
-}
-
-.movie-details-cast {
-  height: 128px;
-  display: flex;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  margin: 1rem 0;
-
-  img {
-    height: 100%;
-  }
-
-  .movie-details-cast-text {
-    margin-left: 1.5rem;
   }
 }

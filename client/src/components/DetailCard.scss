@@ -1,0 +1,46 @@
+@import "~bootstrap/scss/bootstrap";
+
+.detail-card {
+  height: 128px;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  margin: 1rem 0;
+  position: relative;
+  cursor: pointer;
+
+  @include media-breakpoint-down(sm) {
+    height: 196px;
+  }
+
+  a {
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+
+    &:hover {
+      color: white;
+      text-decoration: none;
+
+      .detail-card-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.25);
+      }
+    }
+  }
+
+  a,
+  .detail-card-image-wrapper,
+  img {
+    height: 100%;
+  }
+
+  .detail-card-text {
+    margin-left: 1.5rem;
+  }
+}
