@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import InputGroup from "react-bootstrap/InputGroup";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
+import SearchInput from "../components/SearchInput";
 import { FaSearch } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import "./MainPageTemplate.scss";
@@ -14,7 +14,6 @@ import "./MainPageTemplate.scss";
 function MainPageTemplate(props) {
   const { className, children } = props;
   const [searchOpen, setSearchOpen] = useState(false);
-  const searchInputRef = useRef(null);
   const isMdUp = useMediaQuery({ query: "(min-width: 768px)" });
 
   return (
@@ -33,9 +32,6 @@ function MainPageTemplate(props) {
                 onClick={() => {
                   if (!searchOpen) {
                     setSearchOpen(true);
-                    setTimeout(() => {
-                      searchInputRef.current.focus();
-                    }, 250);
                   }
                 }}
                 title="Open search"
@@ -49,11 +45,7 @@ function MainPageTemplate(props) {
             >
               <div className="search-form-wrapper">
                 <InputGroup>
-                  <Form.Control
-                    ref={searchInputRef}
-                    type="text"
-                    placeholder="Search movies"
-                  />
+                  <SearchInput id="template-search" />
                   <InputGroup.Append>
                     <Button variant="action">Search</Button>
                   </InputGroup.Append>

@@ -46,7 +46,7 @@ function MovieDetails(props) {
                     <BsDot />
                     <span>
                       {data.vote_count === 0 ? "N/A" : data.vote_average}
-                      /10&nbsp;
+                      &nbsp;
                       <FaStar className="star-icon" />
                     </span>
                   </h6>

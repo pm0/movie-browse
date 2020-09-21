@@ -85,6 +85,31 @@ app.get("/api/movies/getDetailsById/:id", async (req, res, next) => {
   }
 });
 
+app.get("/api/search/:query", async (req, res, next) => {
+  // Get details and cast of movie
+  const response = await tmdbApiCall(
+    `/search/multi`,
+    `query=${req.params.query}&page=1&include_adult=false`
+  );
+
+  if (response.status === 200) {
+    // Fetch only movies and actors, sort by popularity, and truncate to 10 results
+    const filteredData = response.data.results
+      .filter(
+        result =>
+          result.media_type === "movie" ||
+          (result.media_type === "person" &&
+            result.known_for_department === "Acting")
+      )
+      .sort((a, b) => (a.popularity > b.popularity ? -1 : 1))
+      .slice(0, 10);
+    res.status(200);
+    res.send(filteredData);
+  } else {
+    handleApiError(response, res);
+  }
+});
+
 app.get("/api/actors/getDetailsById/:id", async (req, res, next) => {
   // Get details and movie roles of actor
   let [detailsResponse, creditsResponse] = await Promise.all([
